@@ -2,13 +2,13 @@
 const app = Vue.createApp({
   data() {
     return {
-      welcome: 'Hello World! Welcome to VueJS'
-    }
-  }
+      welcome: "Hello World! Welcome to VueJS",
+    };
+  },
 });
 
-app.component('app-header', {
-  name: 'AppHeader',
+app.component("app-header", {
+  name: "AppHeader",
   template: `
       <header>
           <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
@@ -30,13 +30,13 @@ app.component('app-header', {
           </nav>
       </header>    
   `,
-  data: function() {
+  data: function () {
     return {};
-  }
+  },
 });
 
-app.component('app-footer', {
-  name: 'AppFooter',
+app.component("app-footer", {
+  name: "AppFooter",
   template: `
       <footer>
           <div class="container">
@@ -44,11 +44,24 @@ app.component('app-footer', {
           </div>
       </footer>
   `,
-  data: function() {
-      return {
-          year: (new Date).getFullYear()
-      }
-  }
-})
+  data: function () {
+    return {
+      year: new Date().getFullYear(),
+    };
+  },
+});
 
-app.mount('#app');
+app.component("news-list", {
+  name: "newslist",
+  template: `
+  <div class="news">
+ <h2>News</h2>
+ <ul class="news__list">
+ <li class="news__item">News item 1</li>
+ <li class="news__item">News item 2</li>
+ <li class="news__item">News item 3</li>
+ </ul>
+</div>`,
+});
+
+app.mount("#app");
