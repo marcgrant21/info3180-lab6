@@ -55,11 +55,21 @@ app.component("news-list", {
   name: "NewsList",
   template: `<div class="news">
   <h2>News</h2>
-  <ul class="news__list">
-  <li v-for="article in articles" 
- class="news__item">{{ article.title }}</li>
-  </ul>
- </div`,
+  <div class="form-inline d-flex justify-content-center">
+      <div class="form-group mx-sm-3 mb-2">
+          <label class="sr-only" for="search">Search</label>
+          <input type="search" name="search" v-model="searchTerm" id="search" class="form-control mb-2 mr-sm-2" placeholder="Enter search term here" />
+          <button class="btn btn-primary mb-2" @click="searchNews">Search</button>
+      </div>
+  </div>
+<div class="grid-container">
+  <div v-for="article in articles" class="news-container">
+      <h5>{{article.title}}</h5>
+      <img class="news-img" v-bind:src="article.urlToImage"/>
+      <p>{{article.description}}</p>
+  </div>
+</div>
+</div>`,
   created() {
     let self = this;
     fetch("https://newsapi.org/v2/top-headlines?country=us", {
