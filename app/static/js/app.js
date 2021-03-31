@@ -3,6 +3,10 @@ const app = Vue.createApp({
   data() {
     return {
       welcome: "Hello World! Welcome to VueJS",
+      components: {
+        'home': Home,
+        'news-list': NewsList,
+      },
     };
   },
 });
@@ -18,14 +22,14 @@ app.component("app-header", {
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">News</a>
-                </li>
-              </ul>
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+            <router-link to="/" class="nav-link">Home</router-link>
+            </li>
+            <li class="nav-item">
+            <router-link to="/news" class="nav-link">News</router-link>
+            </li>
+           </ul>
             </div>
           </nav>
       </header>    
@@ -51,7 +55,7 @@ app.component("app-footer", {
   },
 });
 
-app.component("news-list", {
+const NewsList = {
   name: "NewsList",
   template: `
   <div class="news">
@@ -62,6 +66,7 @@ app.component("news-list", {
                    <input type="search" name="search" v-model="searchTerm" id="search" class="form-control mb-2 mr-sm-2" placeholder="Enter search term here" />
                    <button class="btn btn-primary mb-2" @click="searchNews">Search</button>
                </div>
+              
            </div>
        <div class="grid-container">
            <div v-for="article in articles" class="news-container">
@@ -90,8 +95,54 @@ app.component("news-list", {
   data() {
     return {
       articles: [],
+      methods: {
+        searchNews() {
+          let self = this;
+          fetch(
+            "https://newsapi.org/v2/everything?q=" +
+              self.searchTerm +
+              "&language=en",
+            {
+              headers: {
+                Authorization: "Bearer a54de67091a147099e10bd948e13b2f6",
+              },
+            }
+          )
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+              console.log(data);
+              self.articles = data.articles;
+            });
+        },
+      },
     };
   },
+};
+
+const Home = {
+  name: "Home",
+  template: `
+  <div class="home">
+  <img src="/static/images/logo.png" alt="VueJS Logo">
+  <h1>{{ welcome }}</h1>
+  </div> 
+  `,
+  data() {
+    return {
+      welcome: "Hello World! Welcome to VueJS",
+    };
+  },
+};
+
+const router = VueRouter.createRouter({
+  history: VueRouter.createWebHistory(),
+  routes: [
+    { path: "/", component: Home },
+    { path: "/news", component: NewsList },
+  ],
 });
 
+app.use(router);
 app.mount("#app");
