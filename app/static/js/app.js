@@ -81,7 +81,7 @@ const NewsList = {
     let self = this;
     fetch("https://newsapi.org/v2/top-headlines?country=us", {
       headers: {
-        Authorization: "Bearer a54de67091a147099e10bd948e13b2f6",
+        Authorization: "Bearer <your-api-token>",
       },
     })
       .then(function (response) {
@@ -104,7 +104,7 @@ const NewsList = {
               "&language=en",
             {
               headers: {
-                Authorization: "Bearer a54de67091a147099e10bd948e13b2f6",
+                Authorization: "Bearer <your-api-token>",
               },
             }
           )
